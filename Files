@@ -1,0 +1,339 @@
+1.Program:
+def display_file_with_line_numbers(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            for line_number, line in enumerate(lines, start=1):
+                print(f"{line_number}: {line}", end='')
+    except FileNotFoundError:
+        print(f"The file at path {file_path} was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage:
+file_path = 'example.txt'  # Replace with the path to your file
+display_file_with_line_numbers(file_path)
+Output:
+The file at path example.txt was not found.
+2.Program:
+def append_file_contents(source_file_path, destination_file_path):
+    try:
+        with open(source_file_path, 'r') as source_file:
+            contents = source_file.read()
+
+        with open(destination_file_path, 'a') as destination_file:
+            destination_file.write(contents)
+        
+        print(f"Contents of '{source_file_path}' have been appended to '{destination_file_path}'.")
+    except FileNotFoundError as e:
+        print(f"File not found: {e.filename}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage:
+source_file_path = 'source.txt'  # Replace with the path to the source file
+destination_file_path = 'destination.txt'  # Replace with the path to the destination file
+append_file_contents(source_file_path, destination_file_path)
+Output:
+File not found: source.txt
+3.Program:
+def read_and_sort_students(file_path):
+    try:
+        students = []
+        
+        # Read the file and parse the student records
+        with open(file_path, 'r') as file:
+            for line in file:
+                name, age = line.strip().split(',')
+                students.append((name.strip(), int(age.strip())))
+        
+        # Sort the students by name
+        students.sort(key=lambda student: student[0])
+        
+        # Display the sorted records
+        for name, age in students:
+            print(f"Name: {name}, Age: {age}")
+    
+    except FileNotFoundError:
+        print(f"The file at path {file_path} was not found.")
+    except ValueError:
+        print("Error in parsing the file. Ensure it is in 'name,age' format.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage:
+file_path = 'students.txt'  # Replace with the path to your file
+read_and_sort_students(file_path)
+Output:
+The file at path students.txt was not found.
+4.Program:
+def copy_and_uppercase(source_file_path, destination_file_path):
+    try:
+        # Read the contents of the source file
+        with open(source_file_path, 'r') as source_file:
+            contents = source_file.read()
+        
+        # Convert contents to uppercase
+        uppercase_contents = contents.upper()
+        
+        # Write the uppercase contents to the destination file
+        with open(destination_file_path, 'w') as destination_file:
+            destination_file.write(uppercase_contents)
+        
+        print(f"Contents of '{source_file_path}' have been copied to '{destination_file_path}' with all lowercase characters converted to uppercase.")
+    except FileNotFoundError as e:
+        print(f"File not found: {e.filename}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage:
+source_file_path = 'source.txt'  # Replace with the path to the source file
+destination_file_path = 'destination.txt'  # Replace with the path to the destination file
+copy_and_uppercase(source_file_path, destination_file_path)
+Output:
+File not found: source.txt
+5.Program:
+def merge_files_alternately(file1_path, file2_path, output_file_path):
+    try:
+        with open(file1_path, 'r') as file1, open(file2_path, 'r') as file2:
+            lines1 = file1.readlines()
+            lines2 = file2.readlines()
+
+        max_length = max(len(lines1), len(lines2))
+        
+        with open(output_file_path, 'w') as output_file:
+            for i in range(max_length):
+                if i < len(lines1):
+                    output_file.write(lines1[i])
+                if i < len(lines2):
+                    output_file.write(lines2[i])
+
+        print(f"Files '{file1_path}' and '{file2_path}' have been merged alternately into '{output_file_path}'.")
+    except FileNotFoundError as e:
+        print(f"File not found: {e.filename}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage:
+file1_path = 'students1.txt'  # Replace with the path to the first file
+file2_path = 'students2.txt'  # Replace with the path to the second file
+output_file_path = 'merged_students.txt'  # Replace with the path to the output file
+merge_files_alternately(file1_path, file2_path, output_file_path)
+Output:
+File not found: students1.txt
+6.Program:
+import pickle
+from datetime import datetime
+
+class Employee:
+    def __init__(self, employee_code, employee_name, date_of_joining, salary):
+        self.employee_code = employee_code
+        self.employee_name = employee_name
+        self.date_of_joining = date_of_joining
+        self.salary = salary
+
+    def __repr__(self):
+        return f"Employee({self.employee_code}, {self.employee_name}, {self.date_of_joining}, {self.salary})"
+
+def serialize_employee(employee, filename):
+    with open(filename, 'wb') as file:
+        pickle.dump(employee, file)
+    print(f"Employee data serialized to {filename}")
+
+def deserialize_employee(filename):
+    with open(filename, 'rb') as file:
+        employee = pickle.load(file)
+    print(f"Employee data deserialized from {filename}")
+    return employee
+
+if __name__ == "__main__":
+    # Create an employee object
+    employee = Employee("E001", "John Doe", datetime(2020, 1, 15), 50000)
+
+    # File to store serialized data
+    filename = 'employee_data.pkl'
+
+    # Serialize the employee object
+    serialize_employee(employee, filename)
+
+    # Deserialize the employee object
+    deserialized_employee = deserialize_employee(filename)
+    print(deserialized_employee)
+Output:
+Employee data serialized to employee_data.pkl
+Employee data deserialized from employee_data.pkl
+Employee(E001, John Doe, 2020-01-15 00:00:00, 50000)
+7.Program:
+def read_donors(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            donors = []
+            for line in file:
+                name = line[0:20].strip()
+                address = line[20:60].strip()
+                age = int(line[60:62].strip())
+                blood_type = line[62:63].strip()
+                donors.append((name, address, age, blood_type))
+        return donors
+    except FileNotFoundError:
+        print(f"The file {file_path} does not exist.")
+        return []
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return []
+
+def filter_donors(donors):
+    filtered_donors = [donor for donor in donors if donor[2] < 25 and donor[3] == '2']
+    return filtered_donors
+
+def print_donors(donors):
+    for donor in donors:
+        print(f"Name: {donor[0]}, Address: {donor[1]}, Age: {donor[2]}, Blood Type: {donor[3]}")
+
+# Example usage
+file_path = 'donors.txt'  # Replace with your file path
+donors = read_donors(file_path)
+filtered_donors = filter_donors(donors)
+print_donors(filtered_donors)
+Output:
+The file donors.txt does not exist 
+[Program finished]
+8.Program:
+def store_names(names, file_path):
+    try:
+        with open(file_path, 'w') as file:
+            for name in names:
+                file.write(name + '\n')
+        print(f"Names have been stored in {file_path}.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+def display_nth_name(file_path, n):
+    try:
+        with open(file_path, 'r') as file:
+            lines = file.readlines()
+            if 1 <= n <= len(lines):
+                print(f"The {n}th name in the list is: {lines[n-1].strip()}")
+            else:
+                print(f"Invalid input. Please enter a number between 1 and {len(lines)}.")
+    except FileNotFoundError:
+        print(f"The file {file_path} does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+if __name__ == "__main__":
+    student_names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve']  # Replace with your list of student names
+    file_path = 'students.txt'  # Replace with your desired file path
+    
+    # Store the names in the file
+    store_names(student_names, file_path)
+    
+    # Read the nth name from the file
+    try:
+        n = int(input("Enter the position (n) of the name you want to display: "))
+        display_nth_name(file_path, n)
+    except ValueError:
+        print("Invalid input. Please enter a valid integer.")
+Output:
+Names have been stored in students.txt.
+Enter the position (n) of the name you want to display: 2
+The 2th name in the list is: Bob
+9.Program:
+def read_master_file(file_path):
+    students = {}
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                parts = line.strip().split(maxsplit=1)
+                roll_number = int(parts[0])
+                name = parts[1] if len(parts) > 1 else ""
+                students[roll_number] = name
+    except FileNotFoundError:
+        print(f"The file {file_path} does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    return students
+
+def read_transaction_file(file_path):
+    transactions = []
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                parts = line.strip().split()
+                roll_number = int(parts[0])
+                code = parts[1]
+                transactions.append((roll_number, code))
+    except FileNotFoundError:
+        print(f"The file {file_path} does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    return transactions
+
+def update_students(students, transactions):
+    for roll_number, code in transactions:
+        if code == 'A':
+            # Add the student (assume new students have roll_number and placeholder name)
+            if roll_number not in students:
+                students[roll_number] = "New Student"  # Placeholder for new students
+        elif code == 'D':
+            # Delete the student if exists
+            if roll_number in students:
+                del students[roll_number]
+    return students
+
+def write_updated_file(students, file_path):
+    try:
+        with open(file_path, 'w') as file:
+            for roll_number in sorted(students):
+                file.write(f"{roll_number} {students[roll_number]}\n")
+        print(f"Updated student list has been written to {file_path}.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+master_file_path = 'master.txt'  # Replace with your master file path
+transaction_file_path = 'transactions.txt'  # Replace with your transaction file path
+updated_file_path = 'updated_master.txt'  # Replace with your updated file path
+
+# Read master file
+students = read_master_file(master_file_path)
+
+# Read transaction file
+transactions = read_transaction_file(transaction_file_path)
+
+# Update student list based on transactions
+updated_students = update_students(students, transactions)
+
+# Write the updated list to a new file
+write_updated_file(updated_students, updated_file_path)
+Output:
+The file master.txt does not exist.
+The file transactions.txt does not exist.
+Updated student list has been written to updated_master.txt.
+10.Program:
+def replace_words(input_file, output_file):
+    try:
+        with open(input_file, 'r') as f_input:
+            text = f_input.read()
+        
+        # Replace specified words with blank spaces
+        text = text.replace('a', ' ')
+        text = text.replace('the', ' ')
+        text = text.replace('an', ' ')
+
+        with open(output_file, 'w') as f_output:
+            f_output.write(text)
+
+        print(f"Words replaced and written to {output_file}.")
+    except FileNotFoundError:
+        print(f"The file {input_file} does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+# Example usage
+input_file = 'input_text.txt'  # Replace with your input file path
+output_file = 'output_text.txt'  # Replace with your output file path
+replace_words(input_file, output_file)
+Output:
+The file input_text.txt does not exist.
